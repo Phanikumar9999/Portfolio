@@ -1,14 +1,20 @@
+
 const express = require("express");
 const nodemailer = require("nodemailer");
-require("dotenv").config();
 const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const app = express();
 
-app.use(express.json());
+const frontendPath = path.join(__dirname, "../frontend");
 
-// Serve existing frontend files
-app.use(express.static(__dirname));
+app.use(express.json());
+app.use(express.static(frontendPath));
+
+// Home page
+app.get("/", (req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
+});
 
 // Email configuration
 const transporter = nodemailer.createTransport({
@@ -48,7 +54,6 @@ app.post("/api/contact", async (req, res) => {
         res.json({
             message: "Your message was sent successfully!"
         });
-
     } catch (error) {
         console.error("Email error:", error.message);
 
