@@ -1,0 +1,115 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Phanikumar</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<header class="header">
+    <a href="index.html" class="logo">Phanikumar<span>.</span></a>
+
+    <button class="menu-toggle"
+            aria-label="Toggle navigation"
+            aria-expanded="false">☰</button>
+
+    <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="skills.html">Skills</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html" class="active">Contact</a>
+    </nav>
+</header>
+
+<main class="page-container">
+    <section class="content-card contact-card">
+
+        <p class="eyebrow">LET'S CONNECT</p>
+        <h1>Contact <span>Me</span></h1>
+
+        <p>
+            Feel free to connect with me for professional
+            opportunities and collaboration.
+        </p>
+
+        <div class="contact-list">
+
+            <div class="contact-item">
+                <div class="contact-icon">@</div>
+                <div>
+                    <h2>Email</h2>
+                    <a href="mailto:phanikumarvootla7777@gmail.com">
+                        phanikumarvootla7777@gmail.com
+                    </a>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">in</div>
+                <div>
+                    <h2>LinkedIn</h2>
+                    <a
+                        href="https://www.linkedin.com/in/phanikumar-vootla-3638bb314"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        View My LinkedIn Profile
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <h2 class="form-heading">Send Me a Message</h2>
+
+        <form id="contactForm" class="contact-form">
+
+            <label for="name">Your Name</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your name"
+                required
+                maxlength="100">
+
+            <label for="email">Your Email</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+                maxlength="254">
+
+            <label for="message">Your Message</label>
+            <textarea
+                id="message"
+                name="message"
+                rows="5"
+                placeholder="Write your message here"
+                required
+                maxlength="5000"></textarea>
+
+            <button type="submit" class="btn" id="sendButton">
+                Send Message
+            </button>
+
+            <p id="response" role="status" aria-live="polite"></p>
+
+        </form>
+
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2026 Phanikumar. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
+```
