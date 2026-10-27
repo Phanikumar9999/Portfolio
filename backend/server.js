@@ -1,31 +1,24 @@
 
 const express = require("express");
-const nodemailer = require("nodemailer");
 const path = require("path");
-require("dotenv").config({ path: path.join(__dirname, ".env") });
+const { Resend } = require("resend");
+
+require("dotenv").config({
+    path: path.join(__dirname, ".env")
+});
 
 const app = express();
-
 const frontendPath = path.join(__dirname, "../frontend");
 
 app.use(express.json());
 app.use(express.static(frontendPath));
 
-// Home page
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 app.get("/", (req, res) => {
     res.sendFile(path.join(frontendPath, "index.html"));
 });
 
-// Email configuration
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
-
-// Contact form API
 app.post("/api/contact", async (req, res) => {
     try {
         const { name, email, message } = req.body;
@@ -43,21 +36,32 @@ app.post("/api/contact", async (req, res) => {
             });
         }
 
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_USER,
+        const { data, error } = await resend.emails.send({
+            from: "Portfolio Contact <onboarding@resend.dev>",
+            to: [process.env.EMAIL_USER],
             replyTo: email.trim(),
             subject: `Portfolio Contact: ${name.trim()}`,
-            text: `Name: ${name.trim()}\nEmail: ${email.trim()}\nMessage: ${message.trim()}`
+            text: `Name: ${name.trim()}
+Email: ${email.trim()}
+Message: ${message.trim()}`
         });
 
-        res.json({
+        if (error) {
+            console.error("Resend error:", error);
+            return res.status(500).json({
+                message: "Unable to send the message. Please try again."
+            });
+        }
+
+        console.log("Email sent:", data.id);
+
+        return res.json({
             message: "Your message was sent successfully!"
         });
     } catch (error) {
         console.error("Email error:", error.message);
 
-        res.status(500).json({
+        return res.status(500).json({
             message: "Unable to send the message. Please try again."
         });
     }
