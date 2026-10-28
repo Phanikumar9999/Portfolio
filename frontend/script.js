@@ -29,6 +29,7 @@ if (menuButton && navbar) {
 
 
 // Contact form submission
+
 const contactForm = document.getElementById("contactForm");
 
 if (contactForm) {
@@ -62,7 +63,8 @@ if (contactForm) {
                     name: name,
                     email: email,
                     message: message
-                })
+                }),
+                signal: AbortSignal.timeout(20000)
             });
 
             const result = await response.json();
@@ -81,8 +83,13 @@ if (contactForm) {
         } catch (error) {
             console.error("Contact form error:", error);
 
-            responseMessage.textContent =
-                "Unable to send your message. Please try again later.";
+            if (error.name === "TimeoutError") {
+                responseMessage.textContent =
+                    "Request timed out. Please try again.";
+            } else {
+                responseMessage.textContent =
+                    "Unable to send your message. Please try again later.";
+            }
         } finally {
             sendButton.disabled = false;
             sendButton.textContent = "Send Message";
